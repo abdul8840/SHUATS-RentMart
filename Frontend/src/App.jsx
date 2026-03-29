@@ -11,6 +11,12 @@ import PendingApproval from './pages/auth/PendingApproval.jsx';
 
 import Home from './pages/home/Home.jsx';
 
+import BrowseItems from './pages/items/BrowseItems.jsx';
+import ItemDetail from './pages/items/ItemDetail.jsx';
+import CreateItem from './pages/items/CreateItem.jsx';
+import EditItem from './pages/items/EditItem.jsx';
+import MyListings from './pages/items/MyListings.jsx';
+
 function App() {
   return (
     <Routes>
@@ -26,6 +32,12 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+
+          <Route path="/items" element={<BrowseItems />} />
+          <Route path="/items/create" element={<CreateItem />} />
+          <Route path="/items/:id" element={<ItemDetail />} />
+          <Route path="/items/:id/edit" element={<EditItem />} />
+          <Route path="/my-listings" element={<MyListings />} />
         </Route>
       </Route>
     </Routes>
