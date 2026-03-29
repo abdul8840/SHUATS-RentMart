@@ -1,1 +1,323 @@
 @import "tailwindcss";
+
+@theme {
+  /* Custom Brand Colors */
+  --color-cream: #f5ebe0;
+  --color-rose-beige: #d5bdaf;
+  --color-forest: #40916c;
+  --color-sage: #52b788;
+  --color-mint: #b7e4c7;
+
+  /* Extended Palette */
+  --color-cream-dark: #ede0d4;
+  --color-cream-light: #fdf8f4;
+  --color-forest-dark: #2d6a4f;
+  --color-forest-light: #52b788;
+  --color-sage-dark: #40916c;
+  --color-sage-light: #74c69d;
+  --color-mint-light: #d8f3dc;
+  --color-mint-dark: #95d5b2;
+
+  /* Typography */
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  /* Animations */
+  --animate-fade-in: fadeIn 0.3s ease-in-out;
+  --animate-slide-down: slideDown 0.3s ease-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
+  --animate-slide-right: slideRight 0.3s ease-out;
+  --animate-scale-in: scaleIn 0.2s ease-out;
+  --animate-pulse-soft: pulseSoft 2s infinite;
+  --animate-shimmer: shimmer 2s infinite;
+  --animate-bounce-soft: bounceSoft 1s infinite;
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes bounceSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(82, 183, 136, 0.4); }
+  50% { box-shadow: 0 0 20px rgba(82, 183, 136, 0.8); }
+}
+
+/* ============================================
+   GLOBAL BASE STYLES
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream-light);
+  color: #1a1a1a;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-forest);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-forest), var(--color-sage), var(--color-mint-dark));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Animated gradient background */
+.gradient-bg {
+  background: linear-gradient(
+    135deg,
+    var(--color-forest),
+    var(--color-sage),
+    var(--color-mint-dark),
+    var(--color-forest)
+  );
+  background-size: 300% 300%;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(245, 235, 224, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(213, 189, 175, 0.4);
+}
+
+/* Navbar glass */
+.navbar-glass {
+  background: rgba(245, 235, 224, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(213, 189, 175, 0.5);
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(64, 145, 108, 0.15);
+}
+
+/* Button ripple effect */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.btn-ripple:active::after {
+  transform: scale(4);
+  opacity: 0;
+  transition: 0s;
+}
+
+/* Active nav link indicator */
+.nav-active {
+  background: linear-gradient(135deg, var(--color-forest), var(--color-sage));
+  color: white;
+  box-shadow: 0 4px 12px rgba(64, 145, 108, 0.35);
+}
+
+/* Glow animation for active elements */
+.glow-green {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Sidebar link transition */
+.sidebar-link {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--color-forest), var(--color-sage));
+  transform: scaleY(0);
+  transition: transform 0.25s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+.sidebar-link:hover::before,
+.sidebar-link.active::before {
+  transform: scaleY(1);
+}
+
+/* Trust score bar animation */
+.trust-bar {
+  background: linear-gradient(90deg, var(--color-forest), var(--color-sage), var(--color-mint));
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Footer gradient */
+.footer-gradient {
+  background: linear-gradient(
+    135deg,
+    #1a2e22 0%,
+    #1f3d2d 40%,
+    #2d5a40 100%
+  );
+}
+
+/* Smooth transitions for all interactive elements */
+a, button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-mint);
+  color: var(--color-forest-dark);
+}
+
+/* ============================================
+   ANIMATION CLASSES
+   ============================================ */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.animate-pulse-soft {
+  animation: pulseSoft 2s infinite;
+}
+
+.animate-bounce-soft {
+  animation: bounceSoft 1s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   MOBILE MENU OVERLAY
+   ============================================ */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 40;
+  animation: fadeIn 0.2s ease;
+}
