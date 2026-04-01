@@ -26,6 +26,9 @@ import Profile from './pages/profile/Profile.jsx';
 import EditProfile from './pages/profile/EditProfile.jsx';
 import PublicProfile from './pages/profile/PublicProfile.jsx';
 
+import WriteReview from './pages/reviews/WriteReview.jsx';
+import CreateReport from './pages/reports/CreateReport.jsx';
+
 function App() {
   return (
     <Routes>
@@ -56,6 +59,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<EditProfile />} />
           <Route path="/user/:userId" element={<PublicProfile />} />
+
+          <Route path="/review/:requestId" element={<WriteReview />} />
+          <Route path="/report" element={<CreateReport />} />
 
         </Route>
       </Route>
