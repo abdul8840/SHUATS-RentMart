@@ -18,6 +18,10 @@ import EditItem from './pages/items/EditItem.jsx';
 import MyListings from './pages/items/MyListings.jsx';
 import VerifyEmail from './pages/auth/VerifyEmail.jsx';
 
+import Profile from './pages/profile/Profile.jsx';
+import EditProfile from './pages/profile/EditProfile.jsx';
+import PublicProfile from './pages/profile/PublicProfile.jsx';
+
 function App() {
   return (
     <Routes>
@@ -40,6 +44,11 @@ function App() {
           <Route path="/items/:id" element={<ItemDetail />} />
           <Route path="/items/:id/edit" element={<EditItem />} />
           <Route path="/my-listings" element={<MyListings />} />
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit" element={<EditProfile />} />
+          <Route path="/user/:userId" element={<PublicProfile />} />
+
         </Route>
       </Route>
     </Routes>
