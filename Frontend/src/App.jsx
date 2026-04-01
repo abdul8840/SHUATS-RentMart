@@ -10,6 +10,7 @@ import ResetPassword from './pages/auth/ResetPassword.jsx';
 import PendingApproval from './pages/auth/PendingApproval.jsx';
 
 import Home from './pages/home/Home.jsx';
+import Dashboard from './pages/dashboard/Dashboard.jsx';
 
 import BrowseItems from './pages/items/BrowseItems.jsx';
 import ItemDetail from './pages/items/ItemDetail.jsx';
@@ -45,6 +46,7 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/items" element={<BrowseItems />} />
           <Route path="/items/create" element={<CreateItem />} />
