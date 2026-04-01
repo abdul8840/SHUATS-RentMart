@@ -8,8 +8,11 @@ import connectDB from './config/db.js';
 
 //Routes
 import authRoutes from './routes/authRoutes.js';
-import itemRoutes from './routes/itemRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import itemRoutes from './routes/itemRoutes.js';
+import requestRoutes from './routes/requestRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import reportRoutes from './routes/reportRoutes.js';
 
 dotenv.config();
 
@@ -29,6 +32,9 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/items', itemRoutes);
+app.use('/api/requests', requestRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/reports', reportRoutes);
 
 // app.get('/api/health', (req, res) => {
 //   res.json({ success: true, message: 'SHUATS RentMart API is running' });
