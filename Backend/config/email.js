@@ -28,7 +28,7 @@ export const sendEmail = async (options) => {
     return true;
   } catch (error) {
     console.error('Email send error:', error.message);
-    return false;
+    throw error;
   }
 };
 

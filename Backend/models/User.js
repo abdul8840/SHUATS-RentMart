@@ -16,8 +16,8 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
     match: [
-      /^\d{2}[A-Za-z]+\d{3}@(shiats|shuats)\.com$/,
-      'Please provide a valid SHUATS email (e.g., 24MCA020@shiats.com or 24MCA020@shuats.com)'
+      /^\d{2}[A-Za-z]+\d{3}@(shiats|shuats)\.edu\.in$/,
+      'Please provide a valid SHUATS email (e.g., 24MCA020@shiats.edu.in or 24MCA020@shuats.edu.in)'
     ]
   },
   password: {
@@ -64,6 +64,26 @@ const userSchema = new mongoose.Schema({
   rejectionReason: {
     type: String,
     default: ''
+  },
+  // Email verification fields
+  isEmailVerified: {
+    type: Boolean,
+    default: false
+  },
+  emailVerificationOTP: {
+    type: String,
+    select: false
+  },
+  emailVerificationOTPExpire: {
+    type: Date,
+    select: false
+  },
+  emailVerificationAttempts: {
+    type: Number,
+    default: 0
+  },
+  lastOTPSentAt: {
+    type: Date
   },
   forumAccess: {
     type: Boolean,
@@ -140,9 +160,24 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 // Generate reset password token
 userSchema.methods.getResetPasswordToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
-  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
   this.resetPasswordExpire = Date.now() + parseInt(process.env.RESET_TOKEN_EXPIRE);
   return resetToken;
+};
+
+// Generate email verification OTP (6 digits)
+userSchema.methods.generateEmailVerificationOTP = function () {
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  this.emailVerificationOTP = crypto
+    .createHash('sha256')
+    .update(otp)
+    .digest('hex');
+  this.emailVerificationOTPExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+  this.lastOTPSentAt = Date.now();
+  return otp;
 };
 
 const User = mongoose.model('User', userSchema);

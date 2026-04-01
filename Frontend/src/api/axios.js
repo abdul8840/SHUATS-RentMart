@@ -29,6 +29,8 @@ API.interceptors.response.use(
 // Auth APIs
 export const loginAPI = (data) => API.post('/auth/login', data);
 export const registerAPI = (data) => API.post('/auth/register', data);
+export const verifyEmailAPI = (data) => API.post('/auth/verify-email', data);
+export const resendOTPAPI = (data) => API.post('/auth/resend-otp', data);
 export const getMeAPI = () => API.get('/auth/me');
 export const checkStatusAPI = () => API.get('/auth/check-status');
 export const forgotPasswordAPI = (data) => API.post('/auth/forgot-password', data);

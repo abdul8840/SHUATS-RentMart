@@ -1,10 +1,17 @@
 export const validateSHUATSEmail = (email) => {
-  const regex = /^\d{2}[A-Za-z]+\d{3}@(shiats|shuats)\.com$/;
+  const regex = /^\d{2}[A-Za-z]+\d{3}@(shiats|shuats)\.edu\.in$/;
   return regex.test(email);
 };
 
 export const validatePassword = (password) => {
   return password && password.length >= 6;
+};
+
+export const validateOTP = (otp) => {
+  if (!otp) return 'OTP is required';
+  if (otp.length !== 6) return 'OTP must be 6 digits';
+  if (!/^\d{6}$/.test(otp)) return 'OTP must contain only numbers';
+  return null;
 };
 
 export const validateRegistration = (data) => {
@@ -17,7 +24,9 @@ export const validateRegistration = (data) => {
   if (!data.email) {
     errors.push('Email is required');
   } else if (!validateSHUATSEmail(data.email)) {
-    errors.push('Invalid email format. Use SHUATS email (e.g., 24MCA020@shiats.com or 24MCA020@shuats.com)');
+    errors.push(
+      'Invalid email format. Use SHUATS email (e.g., 24MCA020@shiats.edu.in or 24MCA020@shuats.edu.in)'
+    );
   }
 
   if (!data.password) {

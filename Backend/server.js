@@ -4,7 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
-import errorHandler from './middleware/errorHandler.js';
+// import errorHandler from './middleware/errorHandler.js';
 
 //Routes
 import authRoutes from './routes/authRoutes.js';
@@ -30,11 +30,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/items', itemRoutes);
 
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'SHUATS RentMart API is running' });
-});
+// app.get('/api/health', (req, res) => {
+//   res.json({ success: true, message: 'SHUATS RentMart API is running' });
+// });
 
-app.use(errorHandler);
+// app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

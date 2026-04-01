@@ -16,6 +16,7 @@ import ItemDetail from './pages/items/ItemDetail.jsx';
 import CreateItem from './pages/items/CreateItem.jsx';
 import EditItem from './pages/items/EditItem.jsx';
 import MyListings from './pages/items/MyListings.jsx';
+import VerifyEmail from './pages/auth/VerifyEmail.jsx';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route element={<PublicRoute />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Route>
