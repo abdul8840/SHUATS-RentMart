@@ -25,6 +25,11 @@ import RequestDetail from './pages/requests/RequestDetail.jsx';
 
 import ChatPage from './pages/chat/ChatPage.jsx';
 
+import Forum from './pages/forum/Forum.jsx';
+import ForumPostDetail from './pages/forum/ForumPostDetail.jsx';
+import CreateForumPost from './pages/forum/CreateForumPost.jsx';
+import MyForumPosts from './pages/forum/MyForumPosts.jsx';
+
 import Profile from './pages/profile/Profile.jsx';
 import EditProfile from './pages/profile/EditProfile.jsx';
 import PublicProfile from './pages/profile/PublicProfile.jsx';
@@ -62,6 +67,11 @@ function App() {
           <Route path="/requests/:id" element={<RequestDetail />} />
 
           <Route path="/chat" element={<ChatPage />} />
+
+          <Route path="/forum" element={<Forum />} />
+          <Route path="/forum/create" element={<CreateForumPost />} />
+          <Route path="/forum/:id" element={<ForumPostDetail />} />
+          <Route path="/forum/my-posts" element={<MyForumPosts />} />
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<EditProfile />} />
