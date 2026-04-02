@@ -4,7 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
-// import errorHandler from './middleware/errorHandler.js';
+import errorHandler from './middleware/errorHandler.js';
 
 //Routes
 import authRoutes from './routes/authRoutes.js';
@@ -13,6 +13,7 @@ import itemRoutes from './routes/itemRoutes.js';
 import requestRoutes from './routes/requestRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
+import meetupRoutes from './routes/meetupRoutes.js';
 
 dotenv.config();
 
@@ -35,12 +36,13 @@ app.use('/api/items', itemRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/meetup', meetupRoutes);
 
-// app.get('/api/health', (req, res) => {
-//   res.json({ success: true, message: 'SHUATS RentMart API is running' });
-// });
+app.get('/api/health', (req, res) => {
+  res.json({ success: true, message: 'SHUATS RentMart API is running' });
+});
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
