@@ -23,6 +23,8 @@ import ReceivedRequests from './pages/requests/ReceivedRequests.jsx';
 import SentRequests from './pages/requests/SentRequests.jsx';
 import RequestDetail from './pages/requests/RequestDetail.jsx';
 
+import ChatPage from './pages/chat/ChatPage.jsx';
+
 import Profile from './pages/profile/Profile.jsx';
 import EditProfile from './pages/profile/EditProfile.jsx';
 import PublicProfile from './pages/profile/PublicProfile.jsx';
@@ -58,6 +60,8 @@ function App() {
           <Route path="/requests/received" element={<ReceivedRequests />} />
           <Route path="/requests/sent" element={<SentRequests />} />
           <Route path="/requests/:id" element={<RequestDetail />} />
+
+          <Route path="/chat" element={<ChatPage />} />
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/edit" element={<EditProfile />} />
