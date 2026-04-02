@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 import connectDB from './config/db.js';
 import errorHandler from './middleware/errorHandler.js';
 
@@ -19,6 +21,15 @@ import meetupRoutes from './routes/meetupRoutes.js';
 dotenv.config();
 
 const app = express();
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: [process.env.CLIENT_URL, process.env.ADMIN_URL],
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
 
 connectDB();
 
@@ -30,6 +41,11 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -46,7 +62,52 @@ app.get('/api/health', (req, res) => {
 
 app.use(errorHandler);
 
+// Socket.IO connection handling
+const onlineUsers = new Map();
+
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  socket.on('user_online', (userId) => {
+    onlineUsers.set(userId, socket.id);
+    io.emit('online_users', Array.from(onlineUsers.keys()));
+  });
+
+  socket.on('join_chat', (chatId) => {
+    socket.join(chatId);
+  });
+
+  socket.on('leave_chat', (chatId) => {
+    socket.leave(chatId);
+  });
+
+  socket.on('send_message', (data) => {
+    io.to(data.chatId).emit('receive_message', data);
+  });
+
+  socket.on('typing', (data) => {
+    socket.to(data.chatId).emit('user_typing', data);
+  });
+
+  socket.on('stop_typing', (data) => {
+    socket.to(data.chatId).emit('user_stop_typing', data);
+  });
+
+  socket.on('disconnect', () => {
+    for (const [userId, socketId] of onlineUsers.entries()) {
+      if (socketId === socket.id) {
+        onlineUsers.delete(userId);
+        break;
+      }
+    }
+    io.emit('online_users', Array.from(onlineUsers.keys()));
+    console.log('User disconnected:', socket.id);
+  });
+});
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`SHUATS RentMart Server running on port ${PORT}`);
 });
+
+export { io };
