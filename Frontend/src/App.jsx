@@ -37,6 +37,7 @@ import PublicProfile from './pages/profile/PublicProfile.jsx';
 import MeetupLocations from './pages/meetup/MeetupLocations.jsx';
 import WriteReview from './pages/reviews/WriteReview.jsx';
 import CreateReport from './pages/reports/CreateReport.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 function App() {
   return (
@@ -82,6 +83,8 @@ function App() {
           <Route path="/report" element={<CreateReport />} />
 
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
