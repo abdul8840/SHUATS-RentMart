@@ -18,6 +18,7 @@ import forumRoutes from './routes/forumRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import meetupRoutes from './routes/meetupRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.use('/api/forum', forumRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/meetup', meetupRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'SHUATS RentMart API is running' });
