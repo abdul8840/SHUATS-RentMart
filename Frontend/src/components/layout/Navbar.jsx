@@ -4,7 +4,8 @@ import { AuthContext } from '../../context/AuthContext.jsx';
 import {
   FiMenu, FiX, FiPlus, FiBell, FiMessageSquare,
   FiUser, FiLogOut, FiHome, FiGrid, FiShoppingBag,
-  FiBookOpen, FiMapPin, FiChevronDown
+  FiBookOpen, FiMapPin, FiChevronDown, FiList, FiInbox,
+  FiSend, FiEdit, FiStar
 } from 'react-icons/fi';
 
 const Navbar = () => {
@@ -54,6 +55,17 @@ const Navbar = () => {
 
   const isActive = (path) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
+
+  const trustScore = user?.trustScore ?? 0;
+
+  const getTrustLabel = (score) => {
+    if (score >= 80) return { label: 'Excellent', color: 'text-emerald-600', bgColor: 'bg-emerald-100' };
+    if (score >= 60) return { label: 'Good', color: 'text-[var(--color-forest)]', bgColor: 'bg-[var(--color-mint-light)]' };
+    if (score >= 40) return { label: 'Fair', color: 'text-amber-500', bgColor: 'bg-amber-100' };
+    return { label: 'New', color: 'text-gray-500', bgColor: 'bg-gray-100' };
+  };
+
+  const trust = getTrustLabel(trustScore);
 
   return (
     <>
@@ -139,12 +151,6 @@ const Navbar = () => {
                 "
               >
                 <FiMessageSquare size={18} />
-                {/* unread badge — enable when context is ready */}
-                {/* <span className="
-                  absolute -top-1 -right-1 w-4 h-4 rounded-full
-                  gradient-bg text-white text-[10px] font-bold
-                  flex items-center justify-center animate-pulse-soft
-                ">3</span> */}
               </Link>
 
               {/* Profile Dropdown */}
@@ -162,7 +168,7 @@ const Navbar = () => {
                     w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center
                     bg-gradient-to-br from-[var(--color-forest)] to-[var(--color-sage)]
                     text-white shadow-md group-hover:shadow-lg
-                    transition-all duration-200
+                    transition-all duration-200 relative
                   ">
                     {user?.profileImage?.url ? (
                       <img
@@ -173,6 +179,11 @@ const Navbar = () => {
                     ) : (
                       <FiUser size={16} />
                     )}
+                    {/* Online indicator */}
+                    <div className="
+                      absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full
+                      bg-emerald-400 border border-white
+                    " />
                   </div>
                   <FiChevronDown
                     size={14}
@@ -187,66 +198,122 @@ const Navbar = () => {
                 {/* Profile Dropdown Menu */}
                 {profileOpen && (
                   <div className="
-                    absolute right-0 top-full mt-2 w-64
+                    absolute right-0 top-full mt-2 w-72
                     bg-[var(--color-cream-light)] rounded-2xl
                     shadow-2xl shadow-black/10 border border-[var(--color-rose-beige)]/50
                     overflow-hidden z-50 animate-slide-down
                   ">
                     {/* User info header */}
                     <div className="
-                      px-4 py-3 bg-gradient-to-r
+                      px-4 py-4 bg-gradient-to-br
                       from-[var(--color-mint-light)] to-[var(--color-cream)]
                       border-b border-[var(--color-rose-beige)]/40
                     ">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 mb-3">
                         <div className="
-                          w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center
+                          w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center
                           bg-gradient-to-br from-[var(--color-forest)] to-[var(--color-sage)]
-                          text-white shadow-md flex-shrink-0
+                          text-white shadow-lg flex-shrink-0 relative
                         ">
                           {user?.profileImage?.url ? (
                             <img src={user.profileImage.url} alt={user.name}
                               className="w-full h-full object-cover" />
                           ) : (
-                            <FiUser size={18} />
+                            <FiUser size={20} />
                           )}
+                          {/* Online indicator */}
+                          <div className="
+                            absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full
+                            bg-emerald-400 border-2 border-[var(--color-cream-light)]
+                            animate-pulse-soft
+                          " />
                         </div>
-                        <div className="min-w-0">
-                          <p className="font-semibold text-sm text-gray-800 truncate">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-sm text-gray-800 truncate">
                             {user?.name || 'Student'}
                           </p>
                           <p className="text-xs text-[var(--color-forest)] truncate">
-                            {user?.email}
+                            {user?.department
+                              ? `${user.department} • Sem ${user?.semester}`
+                              : 'SHUATS University'
+                            }
                           </p>
+                        </div>
+                      </div>
+
+                      {/* Trust Score */}
+                      <div className="pt-3 border-t border-[var(--color-mint)]/40">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                            <FiStar size={12} className="text-amber-400" />
+                            <span className="font-medium">Trust Score</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <span className={`text-xs font-bold ${trust.color}`}>
+                              {trustScore}/100
+                            </span>
+                            <span className={`
+                              text-[10px] font-semibold px-2 py-0.5 rounded-full
+                              ${trust.color} ${trust.bgColor}
+                            `}>
+                              {trust.label}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Progress bar */}
+                        <div className="w-full h-2 bg-[var(--color-rose-beige)]/60 rounded-full overflow-hidden">
+                          <div
+                            className="h-full trust-bar rounded-full transition-all duration-700"
+                            style={{ width: `${trustScore}%` }}
+                          />
                         </div>
                       </div>
                     </div>
 
                     {/* Menu items */}
-                    <div className="py-1.5 px-1.5">
+                    <div className="py-1.5 px-1.5 max-h-[400px] overflow-y-auto custom-scrollbar">
+                      {/* Main Menu Section */}
+                      <div className="px-2 py-1">
+                        <p className="text-[10px] font-semibold text-[var(--color-forest)] uppercase tracking-widest mb-1">
+                          Menu
+                        </p>
+                      </div>
+
                       {[
                         { to: '/dashboard', icon: <FiGrid size={15} />, label: 'Dashboard' },
                         { to: '/profile', icon: <FiUser size={15} />, label: 'Profile' },
-                        { to: '/my-listings', icon: <FiShoppingBag size={15} />, label: 'My Listings' },
+                        { to: '/profile/edit', icon: <FiEdit size={15} />, label: 'Edit Profile' },
+                        { to: '/my-listings', icon: <FiList size={15} />, label: 'My Listings' },
+                        { to: '/requests/received', icon: <FiInbox size={15} />, label: 'Received Requests' },
+                        { to: '/requests/sent', icon: <FiSend size={15} />, label: 'Sent Requests' },
                       ].map((item) => (
                         <Link
                           key={item.to}
                           to={item.to}
                           onClick={() => setProfileOpen(false)}
-                          className="
+                          className={`
                             flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm
-                            text-gray-700 hover:bg-[var(--color-mint-light)]
-                            hover:text-[var(--color-forest)] cursor-pointer
-                            transition-all duration-150 group
-                          "
+                            cursor-pointer transition-all duration-150 group
+                            ${isActive(item.to)
+                              ? 'bg-gradient-to-r from-[var(--color-forest)] to-[var(--color-sage)] text-white'
+                              : 'text-gray-700 hover:bg-[var(--color-mint-light)] hover:text-[var(--color-forest)]'
+                            }
+                          `}
                         >
-                          <span className="
-                            text-[var(--color-sage)] group-hover:text-[var(--color-forest)]
+                          <span className={`
                             transition-colors duration-150
-                          ">
+                            ${isActive(item.to)
+                              ? 'text-white'
+                              : 'text-[var(--color-sage)] group-hover:text-[var(--color-forest)]'
+                            }
+                          `}>
                             {item.icon}
                           </span>
-                          {item.label}
+                          <span className="flex-1">{item.label}</span>
+                          {isActive(item.to) && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-white/70 animate-pulse-soft" />
+                          )}
                         </Link>
                       ))}
 
@@ -263,6 +330,13 @@ const Navbar = () => {
                         <FiLogOut size={15} className="group-hover:translate-x-0.5 transition-transform" />
                         Logout
                       </button>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="px-4 py-2 border-t border-[var(--color-rose-beige)]/40 bg-[var(--color-cream)]">
+                      <p className="text-[10px] text-center text-gray-400">
+                        📚 SHUATS RentMart • MCA Project
+                      </p>
                     </div>
                   </div>
                 )}
@@ -299,8 +373,73 @@ const Navbar = () => {
               bg-[var(--color-cream-light)] border-t border-[var(--color-rose-beige)]/50
               shadow-2xl animate-slide-down z-50 max-h-[80vh] overflow-y-auto
             ">
+              {/* User Profile Card - Mobile */}
+              <div className="p-4 m-3 rounded-2xl bg-gradient-to-br from-[var(--color-mint-light)] to-[var(--color-cream)] border border-[var(--color-mint)]/40 shadow-sm">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="relative">
+                    <div className="
+                      w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center
+                      bg-gradient-to-br from-[var(--color-forest)] to-[var(--color-sage)]
+                      text-white shadow-lg
+                    ">
+                      {user?.profileImage?.url ? (
+                        <img
+                          src={user.profileImage.url}
+                          alt={user.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <FiUser size={20} />
+                      )}
+                    </div>
+                    <div className="
+                      absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full
+                      bg-emerald-400 border-2 border-[var(--color-cream-light)]
+                      animate-pulse-soft
+                    " />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-sm text-gray-800 truncate">
+                      {user?.name || 'Student'}
+                    </h3>
+                    <p className="text-xs text-[var(--color-forest)] truncate">
+                      {user?.department
+                        ? `${user.department} • Sem ${user?.semester}`
+                        : 'SHUATS University'
+                      }
+                    </p>
+                  </div>
+                </div>
+
+                {/* Trust Score */}
+                <div className="pt-3 border-t border-[var(--color-mint)]/40">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-1 text-xs text-gray-600">
+                      <FiStar size={11} className="text-amber-400" />
+                      <span>Trust Score</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={`text-xs font-bold ${trust.color}`}>
+                        {trustScore}/100
+                      </span>
+                      <span className={`text-[10px] font-medium ${trust.color}`}>
+                        · {trust.label}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="w-full h-1.5 bg-[var(--color-rose-beige)]/60 rounded-full overflow-hidden">
+                    <div
+                      className="h-full trust-bar rounded-full transition-all duration-700"
+                      style={{ width: `${trustScore}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* Mobile nav links */}
-              <div className="px-4 pt-4 pb-2 space-y-1">
+              <div className="px-4 pt-2 pb-2 space-y-1">
                 <p className="text-xs font-semibold text-[var(--color-forest)] uppercase tracking-wider px-3 mb-2">
                   Navigation
                 </p>
@@ -333,10 +472,13 @@ const Navbar = () => {
                 </p>
                 {[
                   { to: '/items/create', icon: <FiPlus size={16} />, label: 'List Item', highlight: true },
-                  { to: '/chat', icon: <FiMessageSquare size={16} />, label: 'Chat' },
+                  { to: '/chat', icon: <FiMessageSquare size={16} />, label: 'Messages' },
                   { to: '/dashboard', icon: <FiGrid size={16} />, label: 'Dashboard' },
                   { to: '/profile', icon: <FiUser size={16} />, label: 'Profile' },
-                  { to: '/my-listings', icon: <FiShoppingBag size={16} />, label: 'My Listings' },
+                  { to: '/profile/edit', icon: <FiEdit size={16} />, label: 'Edit Profile' },
+                  { to: '/my-listings', icon: <FiList size={16} />, label: 'My Listings' },
+                  { to: '/requests/received', icon: <FiInbox size={16} />, label: 'Received Requests' },
+                  { to: '/requests/sent', icon: <FiSend size={16} />, label: 'Sent Requests' },
                 ].map((item) => (
                   <Link
                     key={item.to}
