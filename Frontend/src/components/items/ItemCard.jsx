@@ -27,20 +27,21 @@ const ItemCard = ({ item }) => {
     <div className="
       group relative rounded-2xl overflow-hidden
       bg-[var(--color-cream-light)] border border-[var(--color-rose-beige)]/60
-      hover:border-[var(--color-mint)] hover:shadow-2xl
+      hover:border-[var(--color-mint)] hover:shadow-xl
       hover:shadow-[var(--color-forest)]/10 hover:-translate-y-1
       transition-all duration-300 ease-out animate-fade-in
+      w-full max-w-sm mx-auto
     ">
       <Link to={`/items/${item._id}`} className="block">
 
         {/* ── IMAGE SECTION ── */}
-        <div className="relative h-44 sm:h-48 overflow-hidden bg-[var(--color-cream)]">
+        <div className="relative h-56 sm:h-64 overflow-hidden bg-[var(--color-cream)]">
           {item.images?.length > 0 ? (
             <img
               src={item.images[0].url}
               alt={item.title}
               className="
-                w-full h-full object-cover
+                w-full h-full object-contain p-1
                 group-hover:scale-105
                 transition-transform duration-500 ease-out
               "
@@ -51,7 +52,7 @@ const ItemCard = ({ item }) => {
               w-full h-full flex flex-col items-center justify-center gap-2
               bg-gradient-to-br from-[var(--color-cream)] to-[var(--color-mint-light)]
             ">
-              <FiShoppingBag size={36} className="text-[var(--color-rose-beige)]" />
+              <FiShoppingBag size={48} className="text-[var(--color-rose-beige)]" />
               <span className="text-xs text-gray-400">No Image</span>
             </div>
           )}
@@ -104,11 +105,11 @@ const ItemCard = ({ item }) => {
         </div>
 
         {/* ── CONTENT SECTION ── */}
-        <div className="p-4 space-y-3">
+        <div className="p-5 space-y-3">
 
           {/* Title */}
           <h3 className="
-            font-bold text-gray-800 text-sm leading-snug line-clamp-2
+            font-bold text-gray-800 text-base leading-snug line-clamp-2 min-h-[2.5rem]
             group-hover:text-[var(--color-forest)]
             transition-colors duration-200
           ">
@@ -117,13 +118,13 @@ const ItemCard = ({ item }) => {
 
           {/* Category */}
           <div className="flex items-center gap-1.5">
-            <FiTag size={12} className="text-[var(--color-sage)] flex-shrink-0" />
+            <FiTag size={13} className="text-[var(--color-sage)] flex-shrink-0" />
             <span className="text-xs text-gray-500 truncate">{item.category}</span>
           </div>
 
           {/* Price */}
           <div className="flex items-baseline gap-1">
-            <span className="text-xl font-extrabold text-[var(--color-forest)]">
+            <span className="text-2xl font-extrabold text-[var(--color-forest)]">
               ₹{item.price}
             </span>
             {isRent && period && (
@@ -135,7 +136,7 @@ const ItemCard = ({ item }) => {
           <div className="flex items-center gap-2 flex-wrap">
             {/* Condition badge */}
             <span className={`
-              inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium
+              inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium
               ${cond.color}
             `}>
               <span className={`w-1.5 h-1.5 rounded-full ${cond.dot}`} />
@@ -145,7 +146,7 @@ const ItemCard = ({ item }) => {
             {/* Department */}
             {item.department && (
               <span className="
-                px-2 py-0.5 rounded-md text-xs font-medium
+                px-2.5 py-1 rounded-md text-xs font-medium
                 bg-[var(--color-cream)] text-gray-600
                 border border-[var(--color-rose-beige)]/60
               ">
@@ -156,7 +157,7 @@ const ItemCard = ({ item }) => {
             {/* Semester */}
             {item.semester && (
               <span className="
-                px-2 py-0.5 rounded-md text-xs font-medium
+                px-2.5 py-1 rounded-md text-xs font-medium
                 bg-[var(--color-mint-light)] text-[var(--color-forest-dark)]
               ">
                 Sem {item.semester}
@@ -169,20 +170,26 @@ const ItemCard = ({ item }) => {
 
           {/* Seller row */}
           {item.seller && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="
-                  w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0
-                  bg-gradient-to-br from-[var(--color-forest)] to-[var(--color-sage)]
-                  text-white text-[10px] font-bold
-                ">
-                  {item.seller.name?.[0]?.toUpperCase() ?? 'S'}
-                </div>
-                <span className="text-xs text-gray-600 truncate">
-                  {item.seller.name}
-                </span>
+            <div className="flex items-center gap-3">
+              {/* Seller Avatar */}
+              <div className="
+                w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0
+                bg-gradient-to-br from-[var(--color-forest)] to-[var(--color-sage)]
+                text-white text-sm font-bold
+                ring-2 ring-[var(--color-mint)]/30
+              ">
+                {item.seller.name?.[0]?.toUpperCase() ?? 'S'}
               </div>
-              <TrustBadge score={item.seller.trustScore} />
+
+              {/* Seller Info */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-gray-800 truncate">
+                  {item.seller.name}
+                </p>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <TrustBadge score={item.seller.trustScore} />
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -28,7 +28,7 @@ const MeetupMap = ({ onSelectLocation, selectedLocation }) => {
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
 
-  const SHUATS_CENTER = [25.4358, 81.8463];
+  const SHUATS_CENTER = [25.4136232689761, 81.8475342647948];
 
   useEffect(() => {
     fetchLocations();

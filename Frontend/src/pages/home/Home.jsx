@@ -201,7 +201,7 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
           {features.map((feature, index) => (
             <div
               key={index}
@@ -270,7 +270,7 @@ const Home = () => {
 
       {/* ===== RECENTLY ADDED ===== */}
       {recentItems.length > 0 && (
-        <section className="bg-white/60 border-y border-cream-dark/30">
+        <section className="bg-transparent border-y border-cream-dark/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
             <div className="flex items-center justify-between mb-6 sm:mb-8">
               <div className="flex items-center gap-3">
@@ -294,7 +294,7 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-5">
               {recentItems.map((item, index) => (
                 <div
                   key={item._id}
@@ -334,7 +334,7 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-5">
             {mostViewed.map((item, index) => (
               <div
                 key={item._id}
