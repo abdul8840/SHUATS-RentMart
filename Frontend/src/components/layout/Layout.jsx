@@ -11,11 +11,10 @@ const Layout = () => {
       {/* ── MAIN CONTENT ── */}
       <main className="
         flex-1 w-full
-        px-4 sm:px-6 lg:px-8 py-6
         animate-fade-in
       ">
         {/* Content wrapper */}
-        <div className="max-w-7xl mx-auto">
+        <div>
           <Outlet />
         </div>
       </main>
