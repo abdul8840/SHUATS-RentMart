@@ -6,7 +6,7 @@ const MostPopularSection = ({ items }) => {
   if (items.length === 0) return null;
 
   return (
-    <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden bg-white">
+    <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden bg-cream">
       {/* Background Elements */}
       <div className="absolute top-1/3 right-0 w-96 h-96 bg-amber-100/30 rounded-full blur-3xl" />
       <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-orange-100/20 rounded-full blur-3xl" />

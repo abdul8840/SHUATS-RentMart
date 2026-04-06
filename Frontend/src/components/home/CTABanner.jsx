@@ -3,11 +3,11 @@ import { FiPlus, FiArrowRight, FiBookOpen } from 'react-icons/fi';
 
 const CTABanner = () => {
   return (
-    <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl sm:rounded-4xl overflow-hidden">
+    <section className="relative overflow-hidden">
+      <div className="">
+        <div className="relative overflow-hidden">
           {/* Gradient Background */}
-          <div className="absolute inset-0 gradient-bg" />
+          <div className="absolute inset-0 bg-gradient-to-r from-forest via-forest to-sage" />
 
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">

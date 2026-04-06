@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiChevronRight, FiBook, FiMonitor, FiHome, FiClipboard, FiTrendingUp } from 'react-icons/fi';
+import BGImg from '../../assets/clg3.webp';
 
 const CategoriesSection = ({ categories }) => {
   const categoryIcons = {
@@ -23,10 +24,11 @@ const CategoriesSection = ({ categories }) => {
   return (
     <section className="relative py-20 sm:py-28 lg:py-32 overflow-hidden bg-white">
       {/* Background Grid */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'linear-gradient(90deg, #40916c 1px, transparent 1px), linear-gradient(#40916c 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
+      <div className="absolute inset-0 bg-gray-100 opacity-20">
+        <div className="absolute inset-0 bg-cover" style={{
+          backgroundImage: BGImg ? `url(${BGImg})` : 'none',
+          // backgroundSize: '40px 40px',
+          
         }} />
       </div>
 
