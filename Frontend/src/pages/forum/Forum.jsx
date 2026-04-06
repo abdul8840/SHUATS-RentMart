@@ -9,12 +9,8 @@ import Modal from '../../components/common/Modal.jsx';
 import Loader from '../../components/common/Loader.jsx';
 import toast from 'react-hot-toast';
 import { 
-  FiPlus, 
-  FiSend, 
-  FiFilter,
-  FiX,
-  FiClock,
-  FiMessageSquare
+  FiPlus, FiSend, FiFilter, FiX, FiClock, FiMessageSquare,
+  FiTrendingUp, FiStar, FiUsers, FiZap, FiCheckCircle, FiAlertCircle
 } from 'react-icons/fi';
 import { HiOutlineSparkles } from 'react-icons/hi2';
 
@@ -30,18 +26,16 @@ const Forum = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const categories = [
-    { value: '', label: 'All Categories', icon: '🌐' },
-    { value: 'Announcement', label: 'Announcements', icon: '📢' },
-    { value: 'Article', label: 'Articles', icon: '📝' },
-    { value: 'Notice', label: 'Notices', icon: '📌' },
-    { value: 'Discussion', label: 'Discussions', icon: '💭' },
-    { value: 'Event', label: 'Events', icon: '🎉' },
-    { value: 'General', label: 'General', icon: '💬' },
+    { value: '', label: 'All Categories', icon: '🌐', color: 'from-gray-500 to-gray-400' },
+    { value: 'Announcement', label: 'Announcements', icon: '📢', color: 'from-amber-500 to-amber-400' },
+    { value: 'Article', label: 'Articles', icon: '📝', color: 'from-blue-500 to-blue-400' },
+    { value: 'Notice', label: 'Notices', icon: '📌', color: 'from-red-500 to-red-400' },
+    { value: 'Discussion', label: 'Discussions', icon: '💭', color: 'from-purple-500 to-purple-400' },
+    { value: 'Event', label: 'Events', icon: '🎉', color: 'from-pink-500 to-pink-400' },
+    { value: 'General', label: 'General', icon: '💬', color: 'from-[var(--color-forest)] to-[var(--color-sage)]' },
   ];
 
-  useEffect(() => {
-    fetchPosts();
-  }, [filters]);
+  useEffect(() => { fetchPosts(); }, [filters]);
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -101,173 +95,313 @@ const Forum = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-cream-light via-cream to-cream-dark">
-      {/* Background decorations */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-mint/20 rounded-full blur-3xl animate-pulse-soft" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-sage/15 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-forest/5 rounded-full blur-3xl" />
-      </div>
+  // Stats calculation
+  const stats = {
+    total: pagination?.total || 0,
+    active: posts.filter(p => new Date(p.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)).length,
+    trending: posts.filter(p => p.likes?.length > 5).length,
+  };
 
-      <div className="relative z-10 max-w-2xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex flex-col gap-4 mb-8 animate-slide-down">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl gradient-bg flex items-center justify-center shadow-lg shadow-forest/20">
-                <FiMessageSquare className="w-6 h-6 text-white" />
+  return (
+    <div className="min-h-screen bg-[var(--color-cream-light)]">
+
+      {/* ═══════════════════════════════════════════════════════
+          HERO HEADER
+          ═══════════════════════════════════════════════════════ */}
+      <div className="relative overflow-hidden bg-[var(--color-forest-dark)] mb-8 py-20">
+        {/* Animated Background */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--color-mint)] rounded-full blur-3xl animate-pulse-soft"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--color-sage)] rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '1s' }}></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            
+            {/* Left Content */}
+            <div className="flex-1 animate-slide-right">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-sage)]/20 
+                            backdrop-blur-sm rounded-full border border-[var(--color-mint)]/30 mb-4">
+                <FiMessageSquare size={14} className="text-[var(--color-mint)] animate-pulse-soft" />
+                <span className="text-[var(--color-mint-light)] text-sm font-medium">
+                  Campus Community Hub
+                </span>
               </div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-forest-dark">
-                  Campus Forum
-                </h1>
-                <p className="text-sm text-rose-beige">
-                  Connect with your community
-                </p>
+
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-3 leading-tight">
+                Campus Forum
+                <span className="block text-2xl sm:text-3xl text-[var(--color-mint-light)] 
+                              font-normal mt-2">
+                  Connect, Share & Discuss
+                </span>
+              </h1>
+
+              <p className="text-[var(--color-cream)] text-base leading-relaxed max-w-2xl">
+                Join the conversation with fellow students. Share knowledge, ask questions, 
+                and stay updated with campus announcements.
+              </p>
+
+              {/* Quick Stats */}
+              <div className="flex flex-wrap gap-4 mt-6">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-xl 
+                              bg-white/10 backdrop-blur-sm border border-white/20">
+                  <FiUsers size={16} className="text-[var(--color-mint)]" />
+                  <span className="text-white text-sm font-medium">
+                    {stats.total} Posts
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-xl 
+                              bg-white/10 backdrop-blur-sm border border-white/20">
+                  <FiTrendingUp size={16} className="text-[var(--color-mint)]" />
+                  <span className="text-white text-sm font-medium">
+                    {stats.trending} Trending
+                  </span>
+                </div>
               </div>
             </div>
 
             {/* Action Button */}
-            {user?.forumAccess ? (
-              <Link
-                to="/forum/create"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-forest to-sage 
-                         text-white font-semibold shadow-lg shadow-forest/30 hover:shadow-xl 
-                         hover:scale-105 active:scale-95 transition-all duration-300"
-              >
-                <FiPlus className="w-5 h-5" />
-                <span className="hidden sm:inline">New Post</span>
-              </Link>
-            ) : !user?.forumAccessRequested ? (
-              <button
-                onClick={() => setAccessModal(true)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-forest to-sage 
-                         text-white font-semibold shadow-lg shadow-forest/30 hover:shadow-xl 
-                         hover:scale-105 active:scale-95 transition-all duration-300"
-              >
-                <FiSend className="w-5 h-5" />
-                <span className="hidden sm:inline">Request Access</span>
-              </button>
-            ) : (
-              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl glass text-forest">
-                <FiClock className="w-4 h-4 animate-pulse-soft" />
-                <span className="text-sm font-medium hidden sm:inline">Pending</span>
-              </div>
-            )}
-          </div>
-
-          {/* Search & Filter Bar */}
-          <div className="glass rounded-2xl p-3">
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <SearchBar
-                  onSearch={(q) => setFilters({ ...filters, search: q, page: 1 })}
-                  placeholder="Search posts..."
-                />
-              </div>
-
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={`
-                  flex items-center gap-2 px-4 rounded-xl font-medium transition-all duration-300
-                  ${showFilters 
-                    ? 'bg-forest text-white' 
-                    : 'bg-white/80 text-forest hover:bg-mint/30'
-                  }
-                `}
-              >
-                <FiFilter className="w-5 h-5" />
-                <span className="hidden sm:inline">Filter</span>
-              </button>
-            </div>
-
-            {/* Expandable Filters */}
-            {showFilters && (
-              <div className="mt-3 pt-3 border-t border-rose-beige/20 animate-slide-down">
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.value}
-                      onClick={() => {
-                        setFilters({ ...filters, category: cat.value, page: 1 });
-                      }}
-                      className={`
-                        flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-300
-                        ${filters.category === cat.value
-                          ? 'bg-forest text-white shadow-md'
-                          : 'bg-white/80 text-forest hover:bg-mint/30'
-                        }
-                      `}
-                    >
-                      <span>{cat.icon}</span>
-                      <span>{cat.label}</span>
-                    </button>
-                  ))}
+            <div className="flex-shrink-0 animate-scale-in">
+              {user?.forumAccess ? (
+                <Link
+                  to="/forum/create"
+                  className="
+                    group flex items-center gap-3 px-8 py-4 rounded-2xl
+                    bg-white text-[var(--color-forest-dark)] font-bold text-base
+                    hover:bg-[var(--color-mint-light)] hover:scale-105
+                    active:scale-95 cursor-pointer shadow-2xl
+                    transition-all duration-300
+                  "
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[var(--color-forest)] 
+                                flex items-center justify-center text-white
+                                group-hover:rotate-90 transition-transform duration-300">
+                    <FiPlus size={20} />
+                  </div>
+                  <span>Create New Post</span>
+                </Link>
+              ) : !user?.forumAccessRequested ? (
+                <button
+                  onClick={() => setAccessModal(true)}
+                  className="
+                    group flex items-center gap-3 px-8 py-4 rounded-2xl
+                    bg-white text-[var(--color-forest-dark)] font-bold text-base
+                    hover:bg-[var(--color-mint-light)] hover:scale-105
+                    active:scale-95 cursor-pointer shadow-2xl
+                    transition-all duration-300
+                  "
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[var(--color-forest)] 
+                                flex items-center justify-center text-white
+                                group-hover:scale-110 transition-transform duration-300">
+                    <FiSend size={18} />
+                  </div>
+                  <span>Request Access</span>
+                </button>
+              ) : (
+                <div className="flex items-center gap-3 px-8 py-4 rounded-2xl
+                              bg-white/10 backdrop-blur-sm border border-white/20">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500 
+                                flex items-center justify-center text-white">
+                    <FiClock size={18} className="animate-pulse-soft" />
+                  </div>
+                  <div>
+                    <p className="text-white font-bold">Request Pending</p>
+                    <p className="text-[var(--color-mint-light)] text-xs">
+                      We'll review your request soon
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {/* Active Filters */}
-            {(filters.category || filters.search) && (
-              <div className="flex items-center gap-2 mt-3 pt-3 border-t border-rose-beige/20">
-                {filters.category && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-forest/10 text-forest text-sm">
-                    {categories.find(c => c.value === filters.category)?.icon} {filters.category}
-                    <button
-                      onClick={() => setFilters({ ...filters, category: '', page: 1 })}
-                      className="ml-1 p-0.5 rounded-full hover:bg-forest/20 transition-colors"
-                    >
-                      <FiX className="w-3.5 h-3.5" />
-                    </button>
-                  </span>
-                )}
-                {filters.search && (
-                  <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-forest/10 text-forest text-sm">
-                    "{filters.search}"
-                    <button
-                      onClick={() => setFilters({ ...filters, search: '', page: 1 })}
-                      className="ml-1 p-0.5 rounded-full hover:bg-forest/20 transition-colors"
-                    >
-                      <FiX className="w-3.5 h-3.5" />
-                    </button>
-                  </span>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Posts Feed */}
+        {/* Wave Divider */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" 
+               className="w-full h-auto">
+            <path d="M0 48L60 42C120 36 240 24 360 20C480 16 600 20 720 28C840 36 960 48 1080 50C1200 52 1320 44 1380 40L1440 36V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0V48Z" 
+                  fill="var(--color-cream-light)"/>
+          </svg>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 -mt-12 relative z-20">
+
+        {/* ═══════════════════════════════════════════════════════
+            SEARCH & FILTER BAR
+            ═══════════════════════════════════════════════════════ */}
+        <div className="bg-white rounded-3xl shadow-2xl border-2 border-[var(--color-rose-beige)]/30 
+                      p-5 mb-8 animate-slide-down">
+          
+          {/* Search Row */}
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
+            <div className="flex-1">
+              <SearchBar
+                onSearch={(q) => setFilters({ ...filters, search: q, page: 1 })}
+                placeholder="🔍 Search posts, topics, announcements..."
+              />
+            </div>
+
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`
+                flex items-center justify-center gap-2 px-6 py-3 rounded-xl 
+                font-semibold text-sm transition-all duration-300
+                border-2 cursor-pointer
+                ${showFilters 
+                  ? 'bg-[var(--color-forest)] text-white border-[var(--color-forest)] shadow-lg' 
+                  : 'bg-white text-[var(--color-forest)] border-[var(--color-rose-beige)] hover:border-[var(--color-forest)] hover:bg-[var(--color-mint-light)]'
+                }
+              `}
+            >
+              <FiFilter size={18} />
+              <span>Filters</span>
+              {(filters.category || filters.search) && (
+                <span className="w-6 h-6 rounded-full bg-red-500 text-white text-xs 
+                               flex items-center justify-center font-bold">
+                  {(filters.category ? 1 : 0) + (filters.search ? 1 : 0)}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Expandable Category Filters */}
+          {showFilters && (
+            <div className="pt-4 border-t-2 border-[var(--color-cream-dark)] animate-slide-down">
+              <p className="text-sm font-bold text-gray-700 mb-3">Filter by Category</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.value}
+                    onClick={() => setFilters({ ...filters, category: cat.value, page: 1 })}
+                    className={`
+                      group relative overflow-hidden p-4 rounded-2xl
+                      border-2 cursor-pointer transition-all duration-300
+                      hover:scale-105 hover:shadow-lg
+                      ${filters.category === cat.value
+                        ? 'border-[var(--color-forest)] bg-[var(--color-mint-light)] shadow-lg'
+                        : 'border-[var(--color-rose-beige)]/40 bg-white hover:border-[var(--color-mint)]'
+                      }
+                    `}
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-3xl">{cat.icon}</span>
+                      <span className="text-xs font-semibold text-gray-700 text-center">
+                        {cat.label}
+                      </span>
+                    </div>
+                    {filters.category === cat.value && (
+                      <div className="absolute top-2 right-2 w-6 h-6 rounded-full 
+                                    bg-[var(--color-forest)] flex items-center justify-center
+                                    text-white animate-scale-in">
+                        <FiCheckCircle size={14} />
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Active Filters Tags */}
+          {(filters.category || filters.search) && (
+            <div className="flex flex-wrap items-center gap-2 pt-4 mt-4 
+                          border-t-2 border-[var(--color-cream-dark)] animate-fade-in">
+              <span className="text-sm font-semibold text-gray-600">Active Filters:</span>
+              
+              {filters.category && (
+                <span className="flex items-center gap-2 px-3 py-1.5 rounded-xl
+                               bg-[var(--color-mint-light)] text-[var(--color-forest)]
+                               border-2 border-[var(--color-mint)]/40 text-sm font-medium">
+                  {categories.find(c => c.value === filters.category)?.icon}{' '}
+                  {categories.find(c => c.value === filters.category)?.label}
+                  <button
+                    onClick={() => setFilters({ ...filters, category: '', page: 1 })}
+                    className="p-0.5 rounded-full hover:bg-[var(--color-mint)] 
+                             transition-colors cursor-pointer"
+                  >
+                    <FiX size={14} />
+                  </button>
+                </span>
+              )}
+              
+              {filters.search && (
+                <span className="flex items-center gap-2 px-3 py-1.5 rounded-xl
+                               bg-blue-50 text-blue-700 border-2 border-blue-200 text-sm font-medium">
+                  Search: "{filters.search}"
+                  <button
+                    onClick={() => setFilters({ ...filters, search: '', page: 1 })}
+                    className="p-0.5 rounded-full hover:bg-blue-100 
+                             transition-colors cursor-pointer"
+                  >
+                    <FiX size={14} />
+                  </button>
+                </span>
+              )}
+
+              <button
+                onClick={() => setFilters({ category: '', search: '', page: 1 })}
+                className="ml-auto text-sm font-semibold text-red-600 hover:text-red-700
+                         cursor-pointer transition-colors"
+              >
+                Clear All
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* ═══════════════════════════════════════════════════════
+            POSTS FEED
+            ═══════════════════════════════════════════════════════ */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader />
           </div>
         ) : posts.length === 0 ? (
-          <div className="text-center py-20 animate-fade-in">
-            <div className="w-20 h-20 mx-auto rounded-3xl bg-mint/30 flex items-center justify-center mb-6">
-              <HiOutlineSparkles className="w-10 h-10 text-sage" />
+          /* EMPTY STATE */
+          <div className="text-center py-24 animate-scale-in">
+            <div className="relative inline-block mb-6">
+              <div className="w-32 h-32 rounded-3xl bg-[var(--color-mint-light)] 
+                            flex items-center justify-center shadow-2xl">
+                <HiOutlineSparkles size={64} className="text-[var(--color-forest)]" />
+              </div>
+              <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full 
+                            bg-[var(--color-forest)] flex items-center justify-center 
+                            text-white shadow-lg">
+                <FiMessageSquare size={24} />
+              </div>
             </div>
-            <h3 className="text-xl font-bold text-forest-dark mb-2">No posts found</h3>
-            <p className="text-rose-beige max-w-md mx-auto text-sm">
+            
+            <h3 className="text-2xl font-extrabold text-gray-900 mb-2">
+              {filters.search || filters.category ? 'No Posts Found' : 'No Posts Yet'}
+            </h3>
+            <p className="text-gray-500 max-w-md mx-auto mb-8 leading-relaxed">
               {filters.search || filters.category
-                ? 'Try adjusting your filters or search terms'
-                : 'Be the first to share something with the community!'}
+                ? 'Try adjusting your filters or search terms to find what you\'re looking for.'
+                : 'Be the first to share something amazing with the community!'}
             </p>
-            {user?.forumAccess && (
+            
+            {user?.forumAccess && !(filters.search || filters.category) && (
               <Link
                 to="/forum/create"
-                className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-2xl 
-                         bg-gradient-to-r from-forest to-sage text-white font-semibold
-                         shadow-lg shadow-forest/30 hover:shadow-xl transition-all duration-300"
+                className="
+                  inline-flex items-center gap-3 px-8 py-4 rounded-2xl
+                  bg-[var(--color-forest)] text-white font-bold text-base
+                  hover:bg-[var(--color-forest-dark)] hover:scale-105
+                  cursor-pointer shadow-2xl shadow-[var(--color-forest)]/30
+                  transition-all duration-300 group
+                "
               >
-                <FiPlus className="w-5 h-5" />
-                Create First Post
+                <FiPlus size={20} className="group-hover:rotate-90 transition-transform" />
+                Create Your First Post
               </Link>
             )}
           </div>
         ) : (
-          <div className="space-y-6">
+          /* POSTS GRID */
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {posts.map((post, index) => (
               <ForumPostCard 
                 key={post._id} 
@@ -282,7 +416,7 @@ const Forum = () => {
 
         {/* Pagination */}
         {pagination && pagination.totalPages > 1 && (
-          <div className="mt-8 animate-fade-in">
+          <div className="mt-12 animate-slide-up">
             <Pagination
               pagination={pagination}
               onPageChange={(page) => setFilters({ ...filters, page })}
@@ -291,62 +425,121 @@ const Forum = () => {
         )}
       </div>
 
-      {/* Access Request Modal */}
+      {/* ═══════════════════════════════════════════════════════
+          ACCESS REQUEST MODAL
+          ═══════════════════════════════════════════════════════ */}
       <Modal
         isOpen={accessModal}
         onClose={() => setAccessModal(false)}
-        title="Request Forum Access"
-      >
-        <div className="space-y-6">
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-mint to-sage 
-                          flex items-center justify-center mb-4">
-              <FiSend className="w-8 h-8 text-white" />
+        title={
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[var(--color-forest)] 
+                          flex items-center justify-center text-white">
+              <FiSend size={18} />
             </div>
-            <p className="text-forest-dark">
-              Tell us why you'd like to contribute to the campus forum:
+            <span>Request Forum Access</span>
+          </div>
+        }
+      >
+        <div className="space-y-6 p-1">
+          {/* Icon & Description */}
+          <div className="text-center">
+            <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br 
+                          from-[var(--color-mint)] to-[var(--color-sage)] 
+                          flex items-center justify-center mb-4 shadow-xl">
+              <FiZap size={36} className="text-white" />
+            </div>
+            <h4 className="text-lg font-bold text-gray-900 mb-2">
+              Join the Conversation
+            </h4>
+            <p className="text-sm text-gray-600 leading-relaxed max-w-md mx-auto">
+              Tell us why you'd like to contribute to the campus forum. 
+              We review all requests to maintain a quality community.
             </p>
           </div>
 
-          <textarea
-            placeholder="I'd like to share my thoughts about..."
-            value={accessReason}
-            onChange={(e) => setAccessReason(e.target.value)}
-            rows={4}
-            className="w-full px-4 py-3 rounded-xl bg-cream border border-rose-beige/30
-                     focus:border-sage focus:ring-2 focus:ring-sage/20 outline-none
-                     placeholder:text-rose-beige/60 text-forest-dark resize-none
-                     transition-all duration-300"
-          />
+          {/* Reason Input */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2">
+              Your Reason *
+            </label>
+            <textarea
+              placeholder="I'd like to share my knowledge about... / I want to help students with... / I'm interested in discussing..."
+              value={accessReason}
+              onChange={(e) => setAccessReason(e.target.value)}
+              rows={5}
+              maxLength={500}
+              className="
+                w-full px-4 py-3 rounded-xl text-sm
+                bg-[var(--color-cream)] border-2 border-[var(--color-rose-beige)]/50
+                text-gray-700 placeholder:text-gray-400
+                focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]
+                focus:border-[var(--color-sage)]
+                transition-all duration-200 resize-none
+              "
+            />
+            <div className="flex items-center justify-between mt-2">
+              <p className="text-xs text-gray-400">
+                {accessReason.length} / 500 characters
+              </p>
+              {accessReason.length >= 50 && accessReason.length <= 500 && (
+                <span className="text-xs text-emerald-600 flex items-center gap-1">
+                  <FiCheckCircle size={12} />
+                  Good length
+                </span>
+              )}
+            </div>
+          </div>
 
+          {/* Info Box */}
+          <div className="p-4 rounded-xl bg-blue-50 border-2 border-blue-200">
+            <div className="flex gap-3">
+              <FiAlertCircle size={20} className="text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="text-sm text-blue-700">
+                <p className="font-semibold mb-1">Review Process</p>
+                <p className="text-xs leading-relaxed">
+                  Our team reviews requests within 24-48 hours. You'll receive a notification 
+                  once your request is processed.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
           <div className="flex gap-3">
             <button
               onClick={handleRequestAccess}
-              disabled={requesting || !accessReason.trim()}
+              disabled={requesting || !accessReason.trim() || accessReason.length < 20}
               className={`
-                flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
-                transition-all duration-300
-                ${requesting || !accessReason.trim()
-                  ? 'bg-rose-beige/30 text-rose-beige cursor-not-allowed'
-                  : 'bg-gradient-to-r from-forest to-sage text-white shadow-lg shadow-forest/30 hover:shadow-xl'
+                flex-1 flex items-center justify-center gap-2 
+                px-6 py-4 rounded-2xl font-bold text-base
+                transition-all duration-300 shadow-lg
+                ${requesting || !accessReason.trim() || accessReason.length < 20
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-[var(--color-forest)] text-white hover:bg-[var(--color-forest-dark)] hover:scale-105 cursor-pointer shadow-[var(--color-forest)]/30'
                 }
               `}
             >
               {requesting ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
                   <span>Submitting...</span>
                 </>
               ) : (
                 <>
-                  <FiSend className="w-5 h-5" />
+                  <FiSend size={18} />
                   <span>Submit Request</span>
                 </>
               )}
             </button>
+            
             <button
               onClick={() => setAccessModal(false)}
-              className="px-6 py-3 rounded-xl glass text-forest font-medium hover:bg-white/80 transition-all duration-300"
+              className="px-6 py-4 rounded-2xl font-semibold text-base
+                       bg-[var(--color-cream)] text-gray-700
+                       border-2 border-[var(--color-rose-beige)]
+                       hover:bg-[var(--color-rose-beige)]/30 cursor-pointer
+                       transition-all duration-300"
             >
               Cancel
             </button>

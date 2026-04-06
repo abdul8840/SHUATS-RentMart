@@ -285,6 +285,7 @@ const Navbar = () => {
                         { to: '/profile', icon: <FiUser size={15} />, label: 'Profile' },
                         { to: '/profile/edit', icon: <FiEdit size={15} />, label: 'Edit Profile' },
                         { to: '/my-listings', icon: <FiList size={15} />, label: 'My Listings' },
+                        { to: '/forum/my-posts', icon: <FiList size={16} />, label: 'My Forum Posts' },
                         { to: '/requests/received', icon: <FiInbox size={15} />, label: 'Received Requests' },
                         { to: '/requests/sent', icon: <FiSend size={15} />, label: 'Sent Requests' },
                       ].map((item) => (
@@ -477,6 +478,7 @@ const Navbar = () => {
                   { to: '/profile', icon: <FiUser size={16} />, label: 'Profile' },
                   { to: '/profile/edit', icon: <FiEdit size={16} />, label: 'Edit Profile' },
                   { to: '/my-listings', icon: <FiList size={16} />, label: 'My Listings' },
+                  { to: '/forum/my-posts', icon: <FiList size={16} />, label: 'My Forum Posts' },
                   { to: '/requests/received', icon: <FiInbox size={16} />, label: 'Received Requests' },
                   { to: '/requests/sent', icon: <FiSend size={16} />, label: 'Sent Requests' },
                 ].map((item) => (
