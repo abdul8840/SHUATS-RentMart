@@ -1,132 +1,171 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from "openai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// OpenRouter client
+const openai = new OpenAI({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
+});
 
-// Generate forum post content
+// ===============================
+// GENERATE FORUM CONTENT
+// ===============================
 export const generateForumContent = async (req, res) => {
   try {
     const { prompt, type } = req.body;
 
     if (!prompt) {
-      return res.status(400).json({ success: false, message: 'Prompt is required' });
+      return res.status(400).json({
+        success: false,
+        message: "Prompt is required",
+      });
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-    let systemPrompt = '';
+    let systemPrompt = "";
 
     switch (type) {
-      case 'title':
-        systemPrompt = `You are a helpful assistant for SHUATS (Sam Higginbottom University of Agriculture, Technology and Sciences) campus forum. Generate 5 creative and engaging post titles based on the following topic. Return only the titles, numbered 1-5. Keep them concise and relevant to a university campus setting.\n\nTopic: ${prompt}`;
+      case "title":
+        systemPrompt = `Generate 5 engaging titles for students.\n\nTopic: ${prompt}`;
         break;
-      case 'caption':
-        systemPrompt = `You are a helpful assistant for SHUATS campus forum. Generate a short, engaging caption (2-3 sentences) for a forum post about the following topic. Make it suitable for a university campus audience.\n\nTopic: ${prompt}`;
+
+      case "caption":
+        systemPrompt = `Write a short caption (2-3 lines):\n\n${prompt}`;
         break;
-      case 'article':
-        systemPrompt = `You are a helpful assistant for SHUATS (Sam Higginbottom University of Agriculture, Technology and Sciences) campus forum. Write a well-structured forum article/post (300-500 words) about the following topic. Include an introduction, main content with key points, and a conclusion. Make it informative and engaging for university students.\n\nTopic: ${prompt}`;
+
+      case "article":
+        systemPrompt = `Write a 300-500 word article:\n\n${prompt}`;
         break;
-      case 'description':
-        systemPrompt = `You are a helpful assistant for SHUATS RentMart, a campus rental and resale platform. Generate an attractive and detailed item description (100-200 words) for selling/renting the following item on a campus marketplace. Include key details students would want to know.\n\nItem: ${prompt}`;
+
+      case "description":
+        systemPrompt = `Write a product description (100-150 words):\n\n${prompt}`;
         break;
-      case 'improve':
-        systemPrompt = `You are a helpful assistant for SHUATS campus forum. Improve the following text by making it more engaging, clear, and well-structured while keeping the original meaning. Return only the improved text.\n\nOriginal text: ${prompt}`;
+
+      case "improve":
+        systemPrompt = `Improve this text:\n\n${prompt}`;
         break;
+
       default:
-        systemPrompt = `You are a helpful assistant for SHUATS campus forum and marketplace. Help with the following request:\n\n${prompt}`;
+        systemPrompt = prompt;
     }
 
-    const result = await model.generateContent(systemPrompt);
-    const response = await result.response;
-    const text = response.text();
+    const completion = await openai.chat.completions.create({
+      model: "openrouter/auto", // automatically picks free model
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful campus marketplace assistant.",
+        },
+        {
+          role: "user",
+          content: systemPrompt,
+        },
+      ],
+    });
 
     res.json({
       success: true,
-      generatedContent: text,
-      type
+      generatedContent: completion.choices[0].message.content,
+      type,
     });
+
   } catch (error) {
-    console.error('AI generation error:', error);
+    console.error("AI error:", error);
+
     res.status(500).json({
       success: false,
-      message: 'AI content generation failed. Please try again.',
-      error: error.message
+      message: "AI failed",
+      error: error.message,
     });
   }
 };
 
-// Generate item listing description
+// ===============================
+// GENERATE ITEM DESCRIPTION
+// ===============================
 export const generateItemDescription = async (req, res) => {
   try {
     const { itemName, category, condition, listingType } = req.body;
 
     if (!itemName) {
-      return res.status(400).json({ success: false, message: 'Item name is required' });
+      return res.status(400).json({
+        success: false,
+        message: "Item name required",
+      });
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-
-    const prompt = `You are a helpful assistant for SHUATS RentMart, a student campus marketplace. Generate an attractive item listing description (100-150 words) for the following:
+    const prompt = `Write a compelling student-friendly product description:
 
 Item: ${itemName}
-Category: ${category || 'General'}
-Condition: ${condition || 'Good'}
-Listing Type: ${listingType || 'sell'}
+Category: ${category || "General"}
+Condition: ${condition || "Good"}
+Type: ${listingType || "sell"}`;
 
-Make it appealing to fellow university students. Include practical details and why they should consider this item. Keep it friendly and concise. Return only the description text.`;
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const completion = await openai.chat.completions.create({
+      model: "openrouter/auto",
+      messages: [
+        { role: "system", content: "Marketplace assistant" },
+        { role: "user", content: prompt },
+      ],
+    });
 
     res.json({
       success: true,
-      generatedDescription: text
+      generatedDescription: completion.choices[0].message.content,
     });
+
   } catch (error) {
-    console.error('AI description error:', error);
+    console.error("AI description error:", error);
+
     res.status(500).json({
       success: false,
-      message: 'AI description generation failed. Please try again.'
+      message: "AI description failed",
+      error: error.message,
     });
   }
 };
 
-// Chat with AI assistant
+// ===============================
+// CHAT WITH AI
+// ===============================
 export const chatWithAI = async (req, res) => {
   try {
     const { message, context } = req.body;
 
     if (!message) {
-      return res.status(400).json({ success: false, message: 'Message is required' });
+      return res.status(400).json({
+        success: false,
+        message: "Message required",
+      });
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const prompt = `${context ? `Context: ${context}\n` : ""}User: ${message}`;
 
-    const prompt = `You are SHUATS RentMart AI Assistant, helping students at Sam Higginbottom University of Agriculture, Technology and Sciences (SHUATS). You help with:
-- Writing item descriptions for the campus marketplace
-- Creating forum posts and articles
-- Suggesting meeting locations on campus
-- General campus-related queries
-- Tips for buying/selling/renting items safely on campus
-
-Keep responses concise, helpful, and student-friendly.
-
-${context ? `Context: ${context}\n` : ''}
-Student's question: ${message}`;
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const completion = await openai.chat.completions.create({
+      model: "openrouter/auto",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful student marketplace assistant. Keep answers short and useful.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
 
     res.json({
       success: true,
-      reply: text
+      reply: completion.choices[0].message.content,
     });
+
   } catch (error) {
-    console.error('AI chat error:', error);
+    console.error("AI chat error:", error);
+
     res.status(500).json({
       success: false,
-      message: 'AI assistant is temporarily unavailable.'
+      message: "AI unavailable",
+      error: error.message,
     });
   }
 };

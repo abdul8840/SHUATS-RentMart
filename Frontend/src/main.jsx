@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { SocketProvider } from './context/SocketContext.jsx';
-import { NotificationProvider } from './context/NotificationContext.jsx';
+import NotificationProvider from './context/NotificationContext.jsx'; // Changed import (no braces)
 import { Toaster } from 'react-hot-toast';
 import './index.css';
 

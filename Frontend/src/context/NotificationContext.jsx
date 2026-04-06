@@ -5,7 +5,8 @@ import { getUnreadNotificationCountAPI } from '../api/axios.js';
 
 export const NotificationContext = createContext(null);
 
-export const NotificationProvider = ({ children }) => {
+// Change from named export to default export for the provider component
+export default function NotificationProvider({ children }) {
   const [unreadCount, setUnreadCount] = useState(0);
   const { user } = useContext(AuthContext);
   const { socket } = useContext(SocketContext);
@@ -60,4 +61,4 @@ export const NotificationProvider = ({ children }) => {
       {children}
     </NotificationContext.Provider>
   );
-};
+}
