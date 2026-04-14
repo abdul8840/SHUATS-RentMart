@@ -1,6 +1,9 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom';
 import AdminLogin from './pages/auth/AdminLogin';
+import AdminDashboard from './pages/dashboard/AdminDashboard';
+import AdminProtectedRoute from './components/routes/AdminProtectedRoute';
+import AdminLayout from './components/layout/AdminLayout';
 
 const App = () => {
   return (
@@ -9,7 +12,7 @@ const App = () => {
 
       <Route element={<AdminProtectedRoute />}>
         <Route element={<AdminLayout />}>
-
+          <Route path="/" element={<AdminDashboard />} />
         </Route>
       </Route>
     </Routes>
