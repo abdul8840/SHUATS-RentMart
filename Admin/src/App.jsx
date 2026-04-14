@@ -12,7 +12,7 @@ const App = () => {
 
       <Route element={<AdminProtectedRoute />}>
         <Route element={<AdminLayout />}>
-          <Route path="/" element={<AdminDashboard />} />
+          <Route path="/dashboard" element={<AdminDashboard />} />
         </Route>
       </Route>
     </Routes>

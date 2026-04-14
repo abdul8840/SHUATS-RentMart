@@ -1,27 +1,56 @@
 const StatusBadge = ({ status }) => {
   const getConfig = (s) => {
-    switch (s?.toLowerCase()) {
-      case 'approved': case 'active': case 'completed': case 'resolved':
-        return { color: 'green', label: s };
+    const statusLower = s?.toLowerCase();
+    switch (statusLower) {
+      case 'approved':
+      case 'active':
+      case 'completed':
+      case 'resolved':
+        return { 
+          className: 'bg-green-100 text-green-800 ring-1 ring-green-600/20', 
+          label: s 
+        };
       case 'pending':
-        return { color: 'yellow', label: s };
-      case 'rejected': case 'removed': case 'cancelled': case 'dismissed':
-        return { color: 'red', label: s };
-      case 'accepted': case 'rented':
-        return { color: 'blue', label: s };
+        return { 
+          className: 'bg-yellow-100 text-yellow-800 ring-1 ring-yellow-600/20', 
+          label: s 
+        };
+      case 'rejected':
+      case 'removed':
+      case 'cancelled':
+      case 'dismissed':
+        return { 
+          className: 'bg-red-100 text-red-800 ring-1 ring-red-600/20', 
+          label: s 
+        };
+      case 'accepted':
+      case 'rented':
+        return { 
+          className: 'bg-blue-100 text-blue-800 ring-1 ring-blue-600/20', 
+          label: s 
+        };
       case 'sold':
-        return { color: 'purple', label: s };
+        return { 
+          className: 'bg-purple-100 text-purple-800 ring-1 ring-purple-600/20', 
+          label: s 
+        };
       case 'reviewed':
-        return { color: 'orange', label: s };
+        return { 
+          className: 'bg-orange-100 text-orange-800 ring-1 ring-orange-600/20', 
+          label: s 
+        };
       default:
-        return { color: 'gray', label: s || 'Unknown' };
+        return { 
+          className: 'bg-gray-100 text-gray-800 ring-1 ring-gray-600/20', 
+          label: s || 'Unknown' 
+        };
     }
   };
 
   const config = getConfig(status);
 
   return (
-    <span data-color={config.color}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.className}`}>
       {config.label}
     </span>
   );
