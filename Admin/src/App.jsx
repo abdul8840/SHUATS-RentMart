@@ -13,6 +13,7 @@ import ManageRequests from './pages/requests/ManageRequests';
 import ForumAccessRequests from './pages/forum/ForumAccessRequests';
 import ManageForumPosts from './pages/forum/ManageForumPosts';
 import CreateAdminPost from './pages/forum/CreateAdminPost';
+import ManageReports from './pages/reports/ManageReports';
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/forum/posts" element={<ManageForumPosts />} />
           <Route path="/forum/create" element={<CreateAdminPost />} />
 
+          <Route path="/reports" element={<ManageReports />} />
 
         </Route>
       </Route>
