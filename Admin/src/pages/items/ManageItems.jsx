@@ -125,7 +125,7 @@ const ManageItems = () => {
           {row.status !== 'removed' && (
             <button
               onClick={() => setConfirmModal({ open: true, item: row, action: 'remove' })}
-              className="p-2 text-amber-600 hover:bg-amber-100 rounded-lg transition"
+              className="p-2 text-amber-600 hover:bg-amber-100 rounded-lg transition cursor-pointer"
             >
               <FiXCircle className="w-4 h-4" />
             </button>
@@ -180,11 +180,11 @@ const ManageItems = () => {
               <FiEye className="w-3.5 h-3.5" />
             </Link>
             {item.status !== 'removed' && (
-              <button onClick={() => setConfirmModal({ open: true, item, action: 'remove' })} className="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg transition">
+              <button onClick={() => setConfirmModal({ open: true, item, action: 'remove' })} className="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg transition cursor-pointer">
                 <FiXCircle className="w-3.5 h-3.5" />
               </button>
             )}
-            <button onClick={() => setConfirmModal({ open: true, item, action: 'delete' })} className="p-1.5 text-red-600 hover:bg-red-100 rounded-lg transition">
+            <button onClick={() => setConfirmModal({ open: true, item, action: 'delete' })} className="p-1.5 text-red-600 hover:bg-red-100 rounded-lg transition cursor-pointer">
               <FiTrash2 className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -194,7 +194,7 @@ const ManageItems = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50/30 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screenpy-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -205,11 +205,11 @@ const ManageItems = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={fetchItems}
-              className="p-2 text-green-600 hover:bg-green-100 rounded-xl transition"
+              className="p-2 text-green-600 hover:bg-green-100 rounded-xl transition cursor-pointer"
             >
               <FiRefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-green-200 rounded-xl text-green-700 hover:bg-green-50 transition shadow-sm">
+            <button className="flex items-center gap-2 px-4 py-2 bg-white border border-green-200 rounded-xl text-green-700 hover:bg-green-50 transition shadow-sm cursor-pointer">
               <FiDownload className="w-4 h-4" />
               Export
             </button>
@@ -231,7 +231,7 @@ const ManageItems = () => {
                 <select
                   value={filters.status}
                   onChange={(e) => setFilters({ ...filters, status: e.target.value, page: 1 })}
-                  className="appearance-none pl-10 pr-8 py-2 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                  className="appearance-none pl-10 pr-8 py-2 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 cursor-pointer"
                 >
                   <option value="">All Status</option>
                   <option value="active">Active</option>
@@ -244,7 +244,7 @@ const ManageItems = () => {
               <select
                 value={filters.category}
                 onChange={(e) => setFilters({ ...filters, category: e.target.value, page: 1 })}
-                className="px-4 py-2 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="px-4 py-2 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 cursor-pointer"
               >
                 <option value="">All Categories</option>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -252,7 +252,7 @@ const ManageItems = () => {
               {(filters.status || filters.category || filters.search) && (
                 <button
                   onClick={resetFilters}
-                  className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-xl text-sm transition"
+                  className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-xl text-sm transition cursor-pointer"
                 >
                   Clear
                 </button>
@@ -261,13 +261,13 @@ const ManageItems = () => {
             <div className="flex items-center gap-1 bg-green-50 rounded-xl p-1">
               <button
                 onClick={() => setViewMode('table')}
-                className={`p-2 rounded-lg transition ${viewMode === 'table' ? 'bg-white shadow-sm text-green-700' : 'text-green-400 hover:text-green-600'}`}
+                className={`p-2 rounded-lg transition cursor-pointer ${viewMode === 'table' ? 'bg-white shadow-sm text-green-700' : 'text-green-400 hover:text-green-600'}`}
               >
                 <FiList className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition ${viewMode === 'grid' ? 'bg-white shadow-sm text-green-700' : 'text-green-400 hover:text-green-600'}`}
+                className={`p-2 rounded-lg transition cursor-pointer ${viewMode === 'grid' ? 'bg-white shadow-sm text-green-700' : 'text-green-400 hover:text-green-600'}`}
               >
                 <FiGrid className="w-4 h-4" />
               </button>
@@ -314,7 +314,7 @@ const ManageItems = () => {
               <div className="col-span-full text-center py-16">
                 <div className="text-5xl mb-4">📦</div>
                 <p className="text-green-600 text-lg">No items found</p>
-                <button onClick={resetFilters} className="mt-4 text-green-500 hover:text-green-600 underline">
+                <button onClick={resetFilters} className="mt-4 text-green-500 hover:text-green-600 underline cursor-pointer">
                   Clear filters
                 </button>
               </div>

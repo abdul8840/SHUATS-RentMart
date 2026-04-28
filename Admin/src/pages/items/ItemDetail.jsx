@@ -98,7 +98,7 @@ const ItemDetail = () => {
           {item.status !== 'removed' && (
             <button
               onClick={handleRemove}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 rounded-xl font-medium hover:bg-red-100 transition-all duration-200 border border-red-200 shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 rounded-xl font-medium hover:bg-red-100 transition-all duration-200 border border-red-200 shadow-sm cursor-pointer"
             >
               <FiXCircle className="w-4 h-4" />
               Remove Item
@@ -123,14 +123,14 @@ const ItemDetail = () => {
                       <button
                         onClick={prevImage}
                         disabled={imageIndex === 0}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
                       >
                         ←
                       </button>
                       <button
                         onClick={nextImage}
                         disabled={imageIndex === item.images.length - 1}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
                       >
                         →
                       </button>
@@ -139,7 +139,7 @@ const ItemDetail = () => {
                           <button
                             key={i}
                             onClick={() => setImageIndex(i)}
-                            className={`w-2 h-2 rounded-full transition-all ${i === imageIndex ? 'bg-green-600 w-4' : 'bg-gray-400'}`}
+                            className={`w-2 h-2 rounded-full transition-all cursor-pointer ${i === imageIndex ? 'bg-green-600 w-4' : 'bg-gray-400'}`}
                           />
                         ))}
                       </div>
@@ -158,7 +158,7 @@ const ItemDetail = () => {
                   <button
                     key={i}
                     onClick={() => setImageIndex(i)}
-                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${i === imageIndex ? 'border-green-500' : 'border-transparent'}`}
+                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition cursor-pointer ${i === imageIndex ? 'border-green-500' : 'border-transparent'}`}
                   >
                     <img src={img.url} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -173,13 +173,13 @@ const ItemDetail = () => {
               <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                 <h2 className="text-2xl font-bold text-green-900">{item.title}</h2>
                 <div className="flex gap-2">
-                  <button className="p-2 text-gray-500 hover:text-red-500 rounded-full hover:bg-gray-100 transition">
+                  <button className="p-2 text-gray-500 hover:text-red-500 rounded-full hover:bg-gray-100 transition cursor-pointer">
                     <FiHeart className="w-5 h-5" />
                   </button>
-                  <button className="p-2 text-gray-500 hover:text-green-600 rounded-full hover:bg-gray-100 transition">
+                  <button className="p-2 text-gray-500 hover:text-green-600 rounded-full hover:bg-gray-100 transition cursor-pointer">
                     <FiShare2 className="w-5 h-5" />
                   </button>
-                  <button className="p-2 text-gray-500 hover:text-red-600 rounded-full hover:bg-gray-100 transition">
+                  <button className="p-2 text-gray-500 hover:text-red-600 rounded-full hover:bg-gray-100 transition cursor-pointer">
                     <FiFlag className="w-5 h-5" />
                   </button>
                 </div>
@@ -293,7 +293,7 @@ const ItemDetail = () => {
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <h3 className="text-lg font-semibold text-green-900 mb-4 flex items-center gap-2">
                 <FiUser className="w-5 h-5" />
-                Seller Information
+                Student Information
               </h3>
               <Link to={`/users/${item.seller?._id}`} className="block hover:bg-green-50 rounded-xl transition">
                 <div className="flex items-start gap-4">
