@@ -9,6 +9,7 @@ import AllUsers from './pages/users/AllUsers';
 import UserDetail from './pages/users/UserDetail';
 import ManageItems from './pages/items/ManageItems';
 import ItemDetail from './pages/items/ItemDetail';
+import ManageRequests from './pages/requests/ManageRequests';
 
 const App = () => {
   return (
@@ -25,6 +26,8 @@ const App = () => {
 
           <Route path="/items" element={<ManageItems />} />
           <Route path="/items/:id" element={<ItemDetail />} />
+
+          <Route path="/requests" element={<ManageRequests />} />
 
 
         </Route>
