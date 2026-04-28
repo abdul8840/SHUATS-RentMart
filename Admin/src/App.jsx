@@ -16,6 +16,7 @@ import CreateAdminPost from './pages/forum/CreateAdminPost';
 import ManageReports from './pages/reports/ManageReports';
 import ManageMeetupLocations from './pages/meetup/ManageMeetupLocations';
 import Analytics from './pages/analytics/Analytics';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
@@ -47,6 +48,8 @@ const App = () => {
 
         </Route>
       </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
 
   )
