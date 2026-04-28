@@ -10,6 +10,9 @@ import UserDetail from './pages/users/UserDetail';
 import ManageItems from './pages/items/ManageItems';
 import ItemDetail from './pages/items/ItemDetail';
 import ManageRequests from './pages/requests/ManageRequests';
+import ForumAccessRequests from './pages/forum/ForumAccessRequests';
+import ManageForumPosts from './pages/forum/ManageForumPosts';
+import CreateAdminPost from './pages/forum/CreateAdminPost';
 
 const App = () => {
   return (
@@ -28,6 +31,10 @@ const App = () => {
           <Route path="/items/:id" element={<ItemDetail />} />
 
           <Route path="/requests" element={<ManageRequests />} />
+
+          <Route path="/forum/access-requests" element={<ForumAccessRequests />} />
+          <Route path="/forum/posts" element={<ManageForumPosts />} />
+          <Route path="/forum/create" element={<CreateAdminPost />} />
 
 
         </Route>
