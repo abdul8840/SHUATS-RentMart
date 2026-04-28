@@ -7,6 +7,8 @@ import AdminLayout from './components/layout/AdminLayout';
 import PendingApprovals from './pages/users/PendingApprovals';
 import AllUsers from './pages/users/AllUsers';
 import UserDetail from './pages/users/UserDetail';
+import ManageItems from './pages/items/ManageItems';
+import ItemDetail from './pages/items/ItemDetail';
 
 const App = () => {
   return (
@@ -20,6 +22,9 @@ const App = () => {
           <Route path="/users/pending" element={<PendingApprovals />} />
           <Route path="/users" element={<AllUsers />} />
           <Route path="/users/:id" element={<UserDetail />} />
+
+          <Route path="/items" element={<ManageItems />} />
+          <Route path="/items/:id" element={<ItemDetail />} />
 
 
         </Route>
