@@ -15,6 +15,7 @@ import ManageForumPosts from './pages/forum/ManageForumPosts';
 import CreateAdminPost from './pages/forum/CreateAdminPost';
 import ManageReports from './pages/reports/ManageReports';
 import ManageMeetupLocations from './pages/meetup/ManageMeetupLocations';
+import Analytics from './pages/analytics/Analytics';
 
 const App = () => {
   return (
@@ -41,6 +42,8 @@ const App = () => {
           <Route path="/reports" element={<ManageReports />} />
 
           <Route path="/meetup-locations" element={<ManageMeetupLocations />} />
+
+          <Route path="/analytics" element={<Analytics />} />
 
         </Route>
       </Route>
